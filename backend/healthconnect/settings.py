@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d&!=7k#fk%*#berm!i1tlt+npz6w^n(*lh7#s7d6ynfc1a(bzp'
+SECRET_KEY = 'tpdc7v@i@oywu(r04miji8-8(6eyy754=06%$z5ii5*&6*3oag'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -73,8 +73,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://health-connect-amuhirwas-projects.vercel.app",
+    "http://10.0.0.216:5173",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
