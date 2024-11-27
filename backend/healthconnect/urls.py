@@ -77,6 +77,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path('api/login', include('rest_framework.urls'), name='get_token'),
     path('admin/', admin.site.urls),
     path('api/login', views.MyTokenObtainPairView.as_view(), name="get_token"),
     path('api/token/refresh', TokenRefreshSlidingView.as_view(), name="refresh_token"),
