@@ -3,12 +3,13 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB49NTLSoKLPHjkgAb8enWE6m4wcsx6Tq4",
-  authDomain: "healthconnect-7f724.firebaseapp.com",
-  projectId: "healthconnect-7f724",
-  storageBucket: "healthconnect-7f724.appspot.com",
-  messagingSenderId: "237748165343",
-  appId: "1:237748165343:web:8221f96333aca535f8a76a"
+  apiKey: "AIzaSyAksY7L0YrzPEnzoWxSPN3JXlsudFK4Z5Q",
+  authDomain: "healthcare-95912.firebaseapp.com",
+  projectId: "healthcare-95912",
+  storageBucket: "healthcare-95912.firebasestorage.app",
+  messagingSenderId: "61352829355",
+  appId: "1:61352829355:web:53d936febb30e5ea78b2ee",
+  measurementId: "G-PLHW4CDS1J"
 };
 
 if (!firebase.apps.length) {
