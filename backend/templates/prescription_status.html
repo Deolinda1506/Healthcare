@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .status {
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .valid {
+            color: #4CAF50;
+            background-color: #dff0d8;
+            border: 1px solid #d0e9c6;
+        }
+        .invalid {
+            color: #F44336;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+        }
+        .details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        .details h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .message {
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Prescription Status</div>
+        
+        {% if is_valid %}
+            <div class="status valid">
+                This prescription is valid.
+            </div>
+        {% else %}
+            <div class="status invalid">
+                This prescription is invalid.
+            </div>
+        {% endif %}
+
+        <div class="details">
+            <h2>Prescription Details</h2>
+            <p><strong>Prescription ID:</strong> {{ prescription_id }}</p>
+            <p><strong>Patient Name:</strong> {{ patient_name }}</p>
+            <p><strong>Doctor Name:</strong> {{ doctor_name }}</p>
+            <p><strong>Doctor Contact:</strong> {{ doctor_contact }}</p>
+            <p><strong>Medication:</strong> {{ medication }}</p>
+            <p><strong>Dosage:</strong> {{ dosage }}</p>
+            <p><strong>Issued Date:</strong> {{ issued_date }}</p>
+        </div>
+
+        <div class="message">
+            {% if is_valid %}
+                You can use this prescription as needed.
+            {% else %}
+                Please contact the doctor for further assistance.
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
