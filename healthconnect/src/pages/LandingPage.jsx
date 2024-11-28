@@ -2,13 +2,10 @@ import Administrators from "../assets/Administrators.jpeg";
 import Deolinda from "../assets/Deolinda.jpeg";
 import Doctor_01 from "../assets/Doctor-1.jpeg";
 import Doctor_02 from "../assets/Doctor-2.jpeg";
-import Gabriel from "../assets/Gabriel.jpeg";
 import Insurer from "../assets/Insurer.jpeg";
-import Lenine from "../assets/Lenine.jpeg";
 import Patients from "../assets/Patients.jpeg";
 import Provider from "../assets/Provider.jpeg";
 import Video from "../assets/video.jpeg";
-import Michael from "../assets/Michael.jpeg";
 import { Link } from "react-router-dom"
 
 export default function LandingPage() {
@@ -147,25 +144,6 @@ export default function LandingPage() {
             <div class="team-member">
               <img src={Deolinda} alt="Deolinda Bogore" />
               <p>Deolinda Bogore</p>
-            </div>
-            <div class="team-member">
-              <img src={Michael} alt="Alain Michael Muhirwa" />
-              <p>Alain Michael Muhirwa</p>
-            </div>
-            <div class="team-member">
-              <p>Lina Iratwe</p>
-            </div>
-            <div class="team-member">
-              <img
-                src={Gabriel}
-                alt="Gabriel Khot Garang Pauwoi"
-              />
-              <p>Gabriel Khot Garang Pauwoi</p>
-            </div>
-            <div class="team-member">
-              <img src={Lenine} alt="Lenine Ngenzi" />
-              <img src="" alt="" />
-              <p>Lenine Ngenzi</p>
             </div>
           </div>
         </div>
