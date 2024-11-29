@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from datetime import timedelta, timezone as tz
 from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view, permission_classes
@@ -13,6 +14,7 @@ from authentication.views import generate_token
 from django.contrib.sites.shortcuts import  get_current_site
 from django.db.models import Q
 
+# Create your views here.
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def random_match(request):
@@ -80,11 +82,11 @@ def get_upcoming_appointments(request):
         completed=False,
         cancelled=False
     )
-    
-    
+
+
     soon_serializer = AppointmentSerializer(soon_appointments, many=True)
     other_serializer = AppointmentSerializer(other_upcoming_appointments, many=True)
-    
+
     return Response({
         'soon_appointments': soon_serializer.data,
         'other_upcoming_appointments': other_serializer.data
@@ -129,7 +131,7 @@ def update_appointment(request):
     appointment = Appointment.objects.get(id=id)
     if appointment.patient != PatientProfile.objects.get(user=request.user):
         return Response({'error': 'You are not authorized to update this appointment'}, status=status.HTTP_403_FORBIDDEN)
-    
+
     if request.data.get('call_id'):
         appointment.call_id = request.data.get('call_id')
         appointment.save()
@@ -191,7 +193,7 @@ def invalidate_prescription(request, id, token):
     prescription = get_object_or_404(Prescription, id=id)
     if generate_token.check_token(prescription, token) is False:
         return Response({'error': 'Invalid token'}, status=status.HTTP_403_FORBIDDEN)
-    
+
     context = {
     'is_valid': prescription.valid,
     'prescription_id': prescription.id,
@@ -208,7 +210,7 @@ def invalidate_prescription(request, id, token):
         prescription.save()
         return render(request, 'prescription_status.html', context)
     return render(request, 'prescription_status.html', context)
-        
+
 @api_view(['GET', 'OPTIONS'])
 @permission_classes([IsAuthenticated])
 def get_doctor_appointments(request, doctor_id):

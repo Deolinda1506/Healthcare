@@ -31,6 +31,8 @@ from six import text_type
 from django.contrib.sites.shortcuts import get_current_site  
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+
+
 # Create your views here.
 class TokenGenerator(PasswordResetTokenGenerator):  
     def _make_hash_value(self, user, timestamp):  
