@@ -45,6 +45,16 @@ generate_token = TokenGenerator()
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+    def post(self, request, *args, **kwargs):
+        try:
+            response = super().post(request, *args, **kwargs)
+            return response
+        except Exception as e:
+            return Response(
+                {'error': str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
 @api_view(['GET', 'OPTIONS'])
 def activate(request, uidb64, token):  
     User = get_user_model()
@@ -65,61 +75,75 @@ def activate(request, uidb64, token):
 @api_view(['POST', 'OPTIONS'])
 @authentication_classes([])
 def register(request):
-    """
-    Register a new user.
+    try:
+        if request.method == 'POST':
+            user_data = request.data.copy()
+            required_fields = ['first_name', 'last_name', 'email', 'password']
+            
+            # Check required fields
+            missing_fields = [field for field in required_fields if field not in user_data]
+            if missing_fields:
+                return Response(
+                    {'error': f'Missing required fields: {", ".join(missing_fields)}'}, 
+                    status=400
+                )
+            
+            # Check if user exists
+            if User.objects.filter(email=user_data['email']).exists():
+                return Response({'error': 'User with this email already exists.'}, status=409)
+            
+            # Set default user role if not provided
+            if not user_data.get('userRole'):
+                user_data['userRole'] = UserRoleChoices.patient
+            
+            # Create user
+            new_user = User(
+                first_name=user_data['first_name'],
+                last_name=user_data['last_name'],
+                email=user_data['email'],
+                user_role=user_data['userRole'],
+                phone=user_data.get('phone', ''),  # Make phone optional
+                gender=user_data.get('gender', ''),  # Make gender optional
+                dob=user_data.get('dob'),  # Make dob optional
+            )
+            new_user.set_password(user_data['password'])
+            new_user.is_active = False
+            new_user.save()
+            
+            # Create patient profile
+            PatientProfile.objects.create(user=new_user)
 
-    Args:
-        request (Request): The request object containing user data.
+            # Send activation email
+            try:
+                current_site = get_current_site(request)
+                subject = "Welcome to HealthConnect"
+                html_message = render_to_string('new-email.html', {  
+                    'user': new_user,  
+                    'domain': current_site.domain,  
+                    'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),  
+                    'token': generate_token.make_token(new_user),  
+                })
+                plain_message = strip_tags(html_message)
+                email = EmailMultiAlternatives(
+                    subject=subject,
+                    body=plain_message,
+                    from_email=settings.EMAIL_HOST_USER,
+                    to=[new_user.email],
+                )
+                email.attach_alternative(html_message, 'text/html')
+                email.send()
+            except Exception as e:
+                # Log the error but don't fail registration
+                print(f"Failed to send activation email: {str(e)}")
 
-    Returns:
-        Response: A response object with success or error message.
-    """
-    if request.method == 'POST':
-        user_data = request.data.copy()
-        if 'first_name' not in user_data or 'last_name' not in user_data or 'email' not in user_data or 'password' not in user_data:
-            return Response({'error': 'Missing required fields'}, status=400)
-        
-        user = User.objects.filter(email=user_data['email']).first()
-        if user:
-            return Response({'error': 'User already exists.'}, status=409)
-        
-        if not user_data.get('userRole'):
-            user_data['userRole'] = UserRoleChoices.patient
-        
-        new_user = User(
-            first_name=user_data['first_name'],
-            last_name=user_data['last_name'],
-            email=user_data['email'],
-            user_role=user_data['userRole'],
-            phone=user_data['phone'],
-            gender=user_data['gender'],
-            dob=user_data['dob'],
+            return Response({'message': 'User registered successfully'}, status=201)
+            
+    except Exception as e:
+        print(f"Registration error: {str(e)}")
+        return Response(
+            {'error': 'An unexpected error occurred during registration.'}, 
+            status=500
         )
-        new_user.set_password(user_data['password'])
-        new_user.is_active = False
-        new_user.save()
-        patient_profile = PatientProfile(user=new_user)
-        patient_profile.save()
-
-        current_site = get_current_site(request)
-        subject = "Welcome to HealthConnect"
-        html_message = render_to_string('new-email.html', {  
-        'user': new_user,  
-        'domain': current_site.domain,  
-        'uid':urlsafe_base64_encode(force_bytes(new_user.pk)),  
-        'token':generate_token.make_token(new_user),  
-        })
-        plain_message = strip_tags(html_message)
-        email = EmailMultiAlternatives(
-            from_email=settings.EMAIL_HOST_USER,
-            to=[new_user.email],
-            body=plain_message,
-            subject=subject,
-        )
-        email.attach_alternative(html_message, 'text/html')
-        email.send()
-
-        return Response({'message': 'User registered successfully', 'status': 201}, status=201)
 
 @api_view(['POST', 'OPTIONS'])
 @permission_classes([IsAuthenticated])

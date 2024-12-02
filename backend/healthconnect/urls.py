@@ -16,10 +16,13 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from authentication import views
 from rest_framework import serializers  
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshSlidingView
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+    TokenObtainPairView
+)
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -100,10 +103,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/login', views.MyTokenObtainPairView.as_view(), name="get_token"),
-    path('api/token/refresh', TokenRefreshSlidingView.as_view(), name="refresh_token"),
-    path('', include('authentication.urls')),
+    path('api/login/', views.MyTokenObtainPairView.as_view(), name="get_token"),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name="refresh_token"),
+    path('api/', include('authentication.urls')),
     path('api/appointments/', include('appointments.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
-
