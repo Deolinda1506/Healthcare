@@ -1,10 +1,10 @@
-HealthConnect
+### HealthConnect
 HealthConnect is a telemedicine platform designed to provide seamless virtual healthcare services. The system connects patients with healthcare providers for consultations, scheduling, and medical records management. The platform features user-friendly interfaces for patients and healthcare providers, offering a streamlined solution to access medical services remotely.
 
-Project Overview
+### Project Overview
 HealthConnect is developed as part of the final assignment for introduction to software engineering course. The system aims to enhance healthcare accessibility by allowing remote consultations, improving patient outcomes, and reducing the need for in-person visits. The system supports three primary user roles: Patients, Healthcare Providers, and Administrators.
 
-Technologies Used
+### Technologies Used
 Frontend: React, Vite, HTML, CSS, JavaScript, Tailwind CSS, Material UI
 Backend: Django
 Database: SQLite
@@ -16,22 +16,23 @@ User Registration and Login
 Users can register and log in to the system.
 Authentication is managed with Django-Auth and JWT.
 
-Appointment Scheduling
+### Appointment Scheduling
 Patients can schedule consultations with healthcare providers and receive reminders.
 
-Video Consultations
+### Video Consultations
 Patients and healthcare providers can conduct live video consultations using integrated WebRTC technology.
 
-Medical Records Management
+### Medical Records Management
 Patients can manage their health records and share them with healthcare providers during consultations.
 
-Healthcare Provider Dashboard
+### Healthcare Provider Dashboard
 Healthcare providers can manage their consultations, patient records, and availability.
 
-Admin Dashboard
+### Admin Dashboard
 Administrators can monitor system performance, manage users, and track consultations.
 
-Project Setup
+### Project Setup
+
 Prerequisites
 Python 3.x
 React Vite
@@ -39,8 +40,9 @@ SQLite
 Git
 PythonAnywhere
 vercel
-Installation
-Clone the Repository:
+
+###Installation
+
 Clone the Repository:
 1. Clone the repository:
    ```bash
@@ -82,16 +84,17 @@ Step 4: Start the Frontend Server
 pnpm run dev
 The server will be accessible at http://127.0.0.1:5173/.
 
-Running the Project
+### Running the Project
 
 Start the Backend Server:
 python manage.py runserver
 Start the Frontend Server:
 pnpm run dev
 Open your browser and navigate to http://127.0.0.1:5173/.
-Deployment
 
-Frontend
+###Deployment
+
+### Frontend
 Deploy the frontend using Vercel:
 vercel --prod
 Backend
@@ -104,7 +107,7 @@ License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Acknowledgements
+### Acknowledgements
 
 Instructor: Tunde Isiaq Gbadamosi
 Course: Introduction to Software Engineering
