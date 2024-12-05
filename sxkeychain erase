@@ -1,0 +1,17 @@
+credential.helper=osxkeychain
+init.defaultbranch=main
+user.name=Deolinda1506
+user.email=g.bogore@alustudent.com
+pull.rebase=true
+http.postbuffer=524288000
+http.timeout=300
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=https://github.com/Deolinda1506/Healthconnect.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
