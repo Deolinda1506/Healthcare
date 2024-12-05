@@ -8,3 +8,4 @@ urlpatterns = [
     path('api/update_health_metrics', views.update_health_metrics, name='update_health_metrics'),
     path('api/change_availability', views.change_availability, name='change_availability'),
     path('api/get_profile', views.get_profile, name='get_profile'),
+]

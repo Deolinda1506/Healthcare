@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -31,7 +32,21 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 # Logger setup
 logging.basicConfig(level=logging.DEBUG)
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        
+        # Add custom claims
+        token['username'] = user.username
+        token['email'] = user.email
+        
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 # Custom token generator
 class TokenGenerator(PasswordResetTokenGenerator):  
     def _make_hash_value(self, user, timestamp):  
