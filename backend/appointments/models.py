@@ -2,8 +2,6 @@ from django.db import models
 from django.utils import timezone
 from authentication.models import PatientProfile, DoctorProfile
 
-# Create your models here.
-
 class Appointment(models.Model):
     """
     Model representing an appointment between a patient and a doctor.

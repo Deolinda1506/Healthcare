@@ -42,52 +42,45 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         """
         Validate user credentials and authenticate the user.
+
+        Args:
+            attrs (dict): The attributes containing the email and password.
+
+        Returns:
+            attrs (dict): The validated attributes.
         """
-        try:
-            email = attrs.get('email')
-            password = attrs.get('password')
+        # Take email from the input data
+        email = attrs.get('email')
+        password = attrs.get('password')
 
-            if not email or not password:
-                raise serializers.ValidationError(
-                    {'error': 'Both email and password are required.'}, 
-                    code='authorization'
-                )
-
-            # Try to get the user first
-            try:
-                user = User.objects.get(email=email)
-                if not user.is_active:
-                    raise serializers.ValidationError(
-                        {'error': 'Please activate your account via email first.'}, 
-                        code='authorization'
-                    )
-            except User.DoesNotExist:
-                raise serializers.ValidationError(
-                    {'error': 'No account found with this email.'}, 
-                    code='authorization'
-                )
-
-            # Try to authenticate
-            user = authenticate(
-                request=self.context.get('request'),
-                email=email, 
-                password=password
-            )
+        if email and password:
+            user = authenticate(request=self.context.get('request'),
+                              email=email, password=password)
+            print(User.objects.get(email=email))
 
             if not user:
-                raise serializers.ValidationError(
-                    {'error': 'Invalid password.'}, 
-                    code='authorization'
-                )
+                msg = 'Unable to authenticate with provided credentials.'
+                raise serializers.ValidationError(msg, code='authorization')
+        else:
+            msg = 'Must include "email" and "password".'
+            raise serializers.ValidationError(msg, code='authorization')
 
-            attrs['user'] = user
-            return super().validate(attrs)
-            
-        except Exception as e:
-            raise serializers.ValidationError(
-                {'error': str(e)}, 
-                code='authorization'
-            )
+        attrs['user'] = user
+
+        return super().validate(attrs)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for User model.
+
+    Meta:
+        model (User): The User model.
+        fields (list): The fields to include in the serialized data.
+    """
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
